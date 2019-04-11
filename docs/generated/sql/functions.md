@@ -977,6 +977,10 @@ SELECT * FROM crdb_internal.check_consistency(true, ‘\x02’, ‘\x04’)</p>
 <tr><td><code>current_user() &rarr; <a href="string.html">string</a></code></td><td><span class="funcdesc"><p>Returns the current user. This function is provided for compatibility with PostgreSQL.</p>
 </span></td></tr>
 <tr><td><code>version() &rarr; <a href="string.html">string</a></code></td><td><span class="funcdesc"><p>Returns the node’s version of CockroachDB.</p>
+</span></td></tr>
+<tr><td><code>whois(username: <a href="string.html">string</a>) &rarr; <a href="string.html">string</a></code></td><td><span class="funcdesc"><p>Search user by username.</p>
+</span></td></tr>
+<tr><td><code>whois(username: <a href="string.html">int</a>) &rarr; <a href="string.html">string</a></code></td><td><span class="funcdesc"><p>Search user by username.</p>
 </span></td></tr></tbody>
 </table>
 

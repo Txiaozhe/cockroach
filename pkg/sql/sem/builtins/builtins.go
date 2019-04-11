@@ -3052,6 +3052,51 @@ may increase either contention or retry errors, or both.`,
 			Info: "This function is used internally to round decimal array values during mutations.",
 		},
 	),
+	"whois": makeBuiltin(
+		tree.FunctionProperties{
+			Category: categorySystemInfo,
+		},
+		tree.Overload{
+			Types: tree.ArgTypes{
+				{"username", types.String},
+			},
+			ReturnType: tree.FixedReturnType(types.String),
+			Fn: func(_ *tree.EvalContext, args tree.Datums) (tree.Datum, error) {
+				users := map[string]string{
+					"bdarnell": "Ben Darnell",
+					"pmattis":  "Peter Mattis",
+					"skimball": "Spencer Kimball",
+				}
+				username := string(*args[0].(*tree.DString))
+				realname, ok := users[strings.ToLower(username)]
+				if !ok {
+					return tree.NewDString("user not found"), nil
+				}
+				return tree.NewDString(realname), nil
+			},
+			Info: "Search user by username.",
+		},
+		tree.Overload{
+			Types: tree.ArgTypes{
+				{"index", types.Int},
+			},
+			ReturnType: tree.FixedReturnType(types.String),
+			Fn: func(_ *tree.EvalContext, args tree.Datums) (tree.Datum, error) {
+				users := map[uint]string{
+					0: "Ben Darnell",
+					1: "Peter Mattis",
+					2: "Spencer Kimball",
+				}
+				index := uint(*args[0].(*tree.DInt))
+				realname, ok := users[index]
+				if !ok {
+					return tree.NewDString("user not found"), nil
+				}
+				return tree.NewDString(realname), nil
+			},
+			Info: "Search user by index.",
+		},
+	),
 }
 
 var lengthImpls = makeBuiltin(tree.FunctionProperties{Category: categoryString},
