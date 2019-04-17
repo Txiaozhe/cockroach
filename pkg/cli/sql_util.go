@@ -352,7 +352,9 @@ func (c *sqlConn) Query(query string, args []driver.Value) (*sqlRows, error) {
 	if sqlCtx.echo {
 		fmt.Fprintln(stderr, ">", query)
 	}
+	fmt.Println("sql_util.go:355 这里是去查询的", query, args)
 	rows, err := c.conn.Query(query, args)
+	fmt.Println("sql_util.go:357 查询的结果呢：", rows)
 	if err == driver.ErrBadConn {
 		c.reconnecting = true
 		c.Close()
@@ -551,6 +553,7 @@ func makeSQLClient(appName string) (*sqlConn, error) {
 		log.Infof(context.Background(), "connecting with URL: %s", sqlURL)
 	}
 
+	fmt.Println("sql_util.go:556 接下来建立连接：", sqlURL)
 	return makeSQLConn(sqlURL), nil
 }
 
@@ -571,6 +574,7 @@ func makeQuery(query string, parameters ...driver.Value) queryFunc {
 				return nil, err
 			}
 		}
+		fmt.Println("sql.util.go:577 组装查询。。。")
 		return conn.Query(query, parameters)
 	}
 }
@@ -718,12 +722,14 @@ func runQueryAndFormatResults(conn *sqlConn, w io.Writer, fn queryFunc) error {
 					if err != nil {
 						return false, err
 					}
+
 					fmt.Fprintf(w, "%s %d\n", tag, nRows)
 				} else {
 					// SET, etc.: just print the tag, or OK if there's no tag.
 					if tag == "" {
 						tag = "OK"
 					}
+
 					fmt.Fprintln(w, tag)
 				}
 				return true, nil
@@ -735,7 +741,9 @@ func runQueryAndFormatResults(conn *sqlConn, w io.Writer, fn queryFunc) error {
 		}
 
 		cols := getColumnStrings(rows, true)
+		fmt.Println("sql_util.go:744 这里获取要执行的函数名(此时是abs): ", cols, *rows)
 		reporter, cleanup, err := makeReporter(w)
+		fmt.Println("sql_util.go:746 makeReporter() 这个函数返回的 reporter 实现了 rowReporter接口")
 		if err != nil {
 			return err
 		}
@@ -747,6 +755,7 @@ func runQueryAndFormatResults(conn *sqlConn, w io.Writer, fn queryFunc) error {
 			if cleanup != nil {
 				defer cleanup()
 			}
+			fmt.Println("sql_util.go:758 ==========>")
 			return render(reporter, w, cols, newRowIter(rows, true), completedHook, noRowsHook)
 		}(); err != nil {
 			return err
@@ -772,9 +781,11 @@ func runQueryAndFormatResults(conn *sqlConn, w io.Writer, fn queryFunc) error {
 			startTime = timeutil.Now()
 		}
 
+		fmt.Println("sql_util.go:784 处理结果")
 		if more, err := rows.NextResultSet(); err != nil {
 			return err
 		} else if !more {
+			fmt.Println("sql_util.go:788 ===> more: ", more)
 			return nil
 		}
 	}

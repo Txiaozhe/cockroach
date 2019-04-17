@@ -258,6 +258,7 @@ type function struct {
 
 var functions = func() map[tree.FunctionClass]map[oid.Oid][]function {
 	m := map[tree.FunctionClass]map[oid.Oid][]function{}
+	fmt.Println("==>> pkg/sql/sqlsmith/schema.go:261 开头处引入 builtins，将内置函数定义引入 FunDefs")
 	for _, def := range tree.FunDefs {
 		switch def.Name {
 		case "pg_sleep":

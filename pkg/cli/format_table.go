@@ -183,6 +183,7 @@ func render(
 	for {
 		// Get a next row.
 		row, err := iter.Next()
+		fmt.Println("format_table.go:186 这里产生结果=> ", row)
 		if err == io.EOF {
 			// No more rows.
 			break
@@ -219,6 +220,7 @@ func render(
 			return r.doneNoRows(w)
 		}
 	}
+	fmt.Println("format_table.go:223 render...，得看看谁实现了 rowReporter")
 	return r.doneRows(w, nRows)
 }
 
@@ -276,6 +278,7 @@ func (p *asciiTableReporter) beforeFirstRow(w io.Writer, iter rowStrIter) error 
 const asciiTableWarnRows = 10000
 
 func (p *asciiTableReporter) iter(_ io.Writer, _ int, row []string) error {
+	fmt.Println("format_table.go:281 这里输出一行")
 	if p.table == nil {
 		return nil
 	}
@@ -300,12 +303,14 @@ func (p *asciiTableReporter) iter(_ io.Writer, _ int, row []string) error {
 
 func (p *asciiTableReporter) doneRows(w io.Writer, seenRows int) error {
 	if p.table != nil {
+		fmt.Println("format_table.go:306 这里输出结果..., ===> p.table")
 		p.table.Render()
 	} else {
 		// A simple delimiter, like in psql.
 		fmt.Fprintln(w, "--")
 	}
 
+	fmt.Println("format_table.go:313 这里输出结果行数: ", seenRows, util.Pluralize(int64(seenRows)))
 	fmt.Fprintf(w, "(%d row%s)\n", seenRows, util.Pluralize(int64(seenRows)))
 	return nil
 }
@@ -583,8 +588,10 @@ func (p *sqlReporter) doneRows(w io.Writer, seenRows int) error {
 // formatter and a cleanup function that must be called in all cases
 // when the formatting completes.
 func makeReporter(w io.Writer) (rowReporter, func(), error) {
+	fmt.Println("format_table.go:591 按特定的形式显示结果: ", cliCtx.tableDisplayFormat)
 	switch cliCtx.tableDisplayFormat {
 	case tableDisplayTable:
+		fmt.Println("format_table.go:594 这里组装输出器和结果到 table")
 		return newASCIITableReporter(), nil, nil
 
 	case tableDisplayTSV:

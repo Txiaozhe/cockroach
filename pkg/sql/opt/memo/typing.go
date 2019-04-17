@@ -15,6 +15,8 @@
 package memo
 
 import (
+	"fmt"
+
 	"github.com/cockroachdb/cockroach/pkg/sql/coltypes"
 	"github.com/cockroachdb/cockroach/pkg/sql/opt"
 	"github.com/cockroachdb/cockroach/pkg/sql/pgwire/pgerror"
@@ -106,6 +108,8 @@ func BinaryAllowsNullArgs(op opt.Operator, leftType, rightType types.T) bool {
 func AggregateOverloadExists(agg opt.Operator, typ types.T) bool {
 	name := opt.AggregateOpReverseMap[agg]
 	_, overloads := builtins.GetBuiltinProperties(name)
+	fmt.Println("=========> GetBuiltinProperties 4")
+
 	for _, o := range overloads {
 		if o.Types.MatchAt(typ, 0) {
 			return true
@@ -119,6 +123,7 @@ func AggregateOverloadExists(agg opt.Operator, typ types.T) bool {
 func FindAggregateOverload(e opt.ScalarExpr) (name string, overload *tree.Overload) {
 	name = opt.AggregateOpReverseMap[e.Op()]
 	_, overloads := builtins.GetBuiltinProperties(name)
+	fmt.Println("=========> GetBuiltinProperties 7")
 	for o := range overloads {
 		overload = &overloads[o]
 		matches := true

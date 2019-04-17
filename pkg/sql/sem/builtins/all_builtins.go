@@ -15,6 +15,7 @@
 package builtins
 
 import (
+	"fmt"
 	"sort"
 
 	"github.com/cockroachdb/cockroach/pkg/sql/sem/tree"
@@ -42,6 +43,7 @@ func init() {
 
 	AllBuiltinNames = make([]string, 0, len(builtins))
 	AllAggregateBuiltinNames = make([]string, 0, len(aggregates))
+	fmt.Println("==>> 从builtin中拿出执行函数")
 	tree.FunDefs = make(map[string]*tree.FunctionDefinition)
 	for name, def := range builtins {
 		fDef := tree.NewFunctionDefinition(name, &def.props, def.overloads)

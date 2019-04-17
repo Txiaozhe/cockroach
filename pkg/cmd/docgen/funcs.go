@@ -173,6 +173,7 @@ func generateOperators() []byte {
 // TODO(mjibson): use the exported value from sql/parser/pg_builtins.go.
 const notUsableInfo = "Not usable; exposed only for compatibility with PostgreSQL."
 
+////====
 func generateFunctions(from []string, categorize bool) []byte {
 	functions := make(map[string][]string)
 	seen := make(map[string]struct{})
@@ -186,6 +187,7 @@ func generateFunctions(from []string, categorize bool) []byte {
 		}
 		seen[name] = struct{}{}
 		props, fns := builtins.GetBuiltinProperties(name)
+		fmt.Println("=========> GetBuiltinProperties 8")
 		if props.Private {
 			continue
 		}

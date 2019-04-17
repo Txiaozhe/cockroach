@@ -1583,6 +1583,8 @@ CREATE TABLE pg_catalog.pg_proc (
 					continue
 				}
 				props, overloads := builtins.GetBuiltinProperties(name)
+				fmt.Println("=========> GetBuiltinProperties 5")
+
 				isAggregate := props.Class == tree.AggregateClass
 				isWindow := props.Class == tree.WindowClass
 				for _, builtin := range overloads {
@@ -2566,6 +2568,8 @@ func (h oidHasher) BuiltinOid(name string, builtin *tree.Overload) *tree.DOid {
 
 func (h oidHasher) RegProc(name string) tree.Datum {
 	_, overloads := builtins.GetBuiltinProperties(name)
+	fmt.Println("=========> GetBuiltinProperties 6")
+
 	if len(overloads) == 0 {
 		return tree.DNull
 	}

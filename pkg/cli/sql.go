@@ -1257,6 +1257,7 @@ func runInteractive(conn *sqlConn) (exitErr error) {
 	c := cliState{conn: conn}
 
 	state := cliStart
+	fmt.Println("sql.go:1260 开始运行sql runInteractive", state)
 	for {
 		if state == cliStop {
 			break
@@ -1274,6 +1275,7 @@ func runInteractive(conn *sqlConn) (exitErr error) {
 			}
 
 			if len(sqlCtx.execStmts) > 0 {
+				fmt.Println("sql.go:1278 sql进来，首先到这里, 执行语句：", sqlCtx.execStmts)
 				// Single-line sql; run as simple as possible, without noise on stdout.
 				return c.runStatements(sqlCtx.execStmts)
 			}
@@ -1369,6 +1371,7 @@ func (c *cliState) runStatements(stmts []string) error {
 		// the error, if any, must not be printed to stderr if
 		// we are returning directly.
 		c.exitErr = runQueryAndFormatResults(c.conn, os.Stdout, makeQuery(stmt))
+		fmt.Println("sql.go:1374 语句执行完毕")
 		if c.exitErr != nil {
 			if !c.errExit && i < len(stmts)-1 {
 				// Print the error now because we don't get a chance later.
@@ -1413,6 +1416,7 @@ func runTerm(cmd *cobra.Command, args []string) error {
 	}
 
 	conn, err := getPasswordAndMakeSQLClient("cockroach sql")
+	fmt.Println("sql.go:1418 建立连接，这个 conn 实现了Query", conn)
 	if err != nil {
 		return err
 	}

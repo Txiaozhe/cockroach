@@ -595,6 +595,7 @@ If problems persist, please see ` + base.DocsURL("cluster-setup-troubleshooting.
 		if err := func() error {
 			// Instantiate the server.
 			var err error
+			fmt.Println("创建服务。。。")
 			s, err = server.NewServer(serverCfg, stopper)
 			if err != nil {
 				return errors.Wrap(err, "failed to start server")

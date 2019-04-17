@@ -58,6 +58,7 @@ func GetAggregateInfo(
 	}
 
 	props, builtins := builtins.GetBuiltinProperties(strings.ToLower(fn.String()))
+	fmt.Println("=========> GetBuiltinProperties 1")
 	for _, b := range builtins {
 		types := b.Types.Types()
 		if len(types) != len(inputTypes) {

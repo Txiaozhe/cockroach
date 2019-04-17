@@ -69,6 +69,8 @@ func GetWindowFunctionInfo(
 		)
 	}
 	props, builtins := builtins.GetBuiltinProperties(strings.ToLower(funcStr))
+	fmt.Println("=========> GetBuiltinProperties 2")
+
 	for _, b := range builtins {
 		types := b.Types.Types()
 		if len(types) != len(inputTypes) {

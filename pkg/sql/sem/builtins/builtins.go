@@ -1987,6 +1987,7 @@ may increase either contention or retry errors, or both.`,
 			ReturnType: tree.FixedReturnType(types.Int),
 			Fn: func(_ *tree.EvalContext, args tree.Datums) (tree.Datum, error) {
 				x := tree.MustBeDInt(args[0])
+				fmt.Println("builtin.go:1997 内置函数执行生成结果")
 				switch {
 				case x == math.MinInt64:
 					return nil, errAbsOfMinInt64

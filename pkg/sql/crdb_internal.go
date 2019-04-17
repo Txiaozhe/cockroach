@@ -1073,6 +1073,8 @@ CREATE TABLE crdb_internal.builtin_functions (
 	populate: func(ctx context.Context, _ *planner, _ *DatabaseDescriptor, addRow func(...tree.Datum) error) error {
 		for _, name := range builtins.AllBuiltinNames {
 			props, overloads := builtins.GetBuiltinProperties(name)
+			fmt.Println("=========> GetBuiltinProperties 3")
+
 			for _, f := range overloads {
 				if err := addRow(
 					tree.NewDString(name),
