@@ -11,6 +11,7 @@ stmt ::=
 	| discard_stmt
 	| export_stmt
 	| grant_stmt
+	| helloworld_stmt
 	| prepare_stmt
 	| revoke_stmt
 	| savepoint_stmt
@@ -68,6 +69,10 @@ grant_stmt ::=
 	'GRANT' privileges 'ON' targets 'TO' name_list
 	| 'GRANT' privilege_list 'TO' name_list
 	| 'GRANT' privilege_list 'TO' name_list 'WITH' 'ADMIN' 'OPTION'
+
+helloworld_stmt ::=
+	'HELLOWORLD' 'SAY'
+	| 'HELLOWORLD' 'SMILE'
 
 prepare_stmt ::=
 	'PREPARE' table_alias_name prep_type_clause 'AS' preparable_stmt
@@ -628,6 +633,7 @@ unreserved_keyword ::=
 	| 'GRANTS'
 	| 'GROUPS'
 	| 'HASH'
+	| 'HELLOWORLD'
 	| 'HIGH'
 	| 'HISTOGRAM'
 	| 'HOUR'
@@ -733,6 +739,7 @@ unreserved_keyword ::=
 	| 'SETTINGS'
 	| 'STATUS'
 	| 'SAVEPOINT'
+	| 'SAY'
 	| 'SCATTER'
 	| 'SCHEMA'
 	| 'SCHEMAS'
@@ -753,6 +760,7 @@ unreserved_keyword ::=
 	| 'SHOW'
 	| 'SIMPLE'
 	| 'SMALLSERIAL'
+	| 'SMILE'
 	| 'SNAPSHOT'
 	| 'SQL'
 	| 'START'

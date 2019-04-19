@@ -551,6 +551,10 @@ func TestParse(t *testing.T) {
 		{`GRANT rolea, roleb TO usera, userb`},
 		{`GRANT rolea, roleb TO usera, userb WITH ADMIN OPTION`},
 
+		// Helloworld
+		{`HELLOWORLD SAY`},
+		{`HELLOWORLD SMILE`},
+
 		// Tables are the default, but can also be specified with
 		// REVOKE x ON TABLE y. However, the stringer does not output TABLE.
 		{`REVOKE SELECT ON TABLE foo FROM root`},

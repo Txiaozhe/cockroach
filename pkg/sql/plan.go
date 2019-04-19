@@ -672,6 +672,8 @@ func (p *planner) newPlan(
 		return p.Explain(ctx, n)
 	case *tree.Grant:
 		return p.Grant(ctx, n)
+	case *tree.Helloworld:
+		return p.Helloworld(ctx, n)
 	case *tree.Insert:
 		return p.Insert(ctx, n, desiredTypes)
 	case *tree.ParenSelect:

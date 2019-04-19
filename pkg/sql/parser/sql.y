@@ -507,7 +507,7 @@ func newNameFromStr(s string) *tree.Name {
 
 %token <str> GLOBAL GRANT GRANTS GREATEST GROUP GROUPING GROUPS
 
-%token <str> HAVING HASH HIGH HISTOGRAM HOUR
+%token <str> HAVING HASH HELLOWORLD HIGH HISTOGRAM HOUR
 
 %token <str> IF IFERROR IFNULL ILIKE IMMEDIATE IMPORT IN INCREMENT INCREMENTAL
 %token <str> INET INET_CONTAINED_BY_OR_EQUALS INET_CONTAINS_OR_CONTAINED_BY
@@ -543,10 +543,10 @@ func newNameFromStr(s string) *tree.Name {
 %token <str> RELEASE RESET RESTORE RESTRICT RESUME RETURNING REVOKE RIGHT
 %token <str> ROLE ROLES ROLLBACK ROLLUP ROW ROWS RSHIFT RULE
 
-%token <str> SAVEPOINT SCATTER SCHEMA SCHEMAS SCRUB SEARCH SECOND SELECT SEQUENCE SEQUENCES
+%token <str> SAVEPOINT SAY SCATTER SCHEMA SCHEMAS SCRUB SEARCH SECOND SELECT SEQUENCE SEQUENCES
 %token <str> SERIAL SERIAL2 SERIAL4 SERIAL8
 %token <str> SERIALIZABLE SERVER SESSION SESSIONS SESSION_USER SET SETTING SETTINGS
-%token <str> SHOW SIMILAR SIMPLE SMALLINT SMALLSERIAL SNAPSHOT SOME SPLIT SQL
+%token <str> SHOW SIMILAR SIMPLE SMALLINT SMALLSERIAL SMILE SNAPSHOT SOME SPLIT SQL
 
 %token <str> START STATISTICS STATUS STDIN STRICT STRING STORE STORED STORING SUBSTRING
 %token <str> SYMMETRIC SYNTAX SYSTEM SUBSCRIPTION
@@ -682,6 +682,8 @@ func newNameFromStr(s string) *tree.Name {
 %type <tree.Statement> drop_user_stmt
 %type <tree.Statement> drop_view_stmt
 %type <tree.Statement> drop_sequence_stmt
+
+%type <tree.Statement> helloworld_stmt
 
 %type <tree.Statement> explain_stmt
 %type <tree.Statement> prepare_stmt
@@ -1061,6 +1063,7 @@ stmt:
 | discard_stmt      // EXTEND WITH HELP: DISCARD
 | export_stmt       // EXTEND WITH HELP: EXPORT
 | grant_stmt        // EXTEND WITH HELP: GRANT
+| helloworld_stmt   // EXTEND WITH HELP: HELLOWORLD
 | prepare_stmt      // EXTEND WITH HELP: PREPARE
 | revoke_stmt       // EXTEND WITH HELP: REVOKE
 | savepoint_stmt    // EXTEND WITH HELP: SAVEPOINT
@@ -1071,6 +1074,13 @@ stmt:
   {
     $$.val = tree.Statement(nil)
   }
+
+// %Help: HELLOWORLD - demo test
+// %Category: Misc
+// %Text: HELLOWORLD { SAY | SMILE }
+helloworld_stmt:
+  HELLOWORLD SAY { $$.val = &tree.Helloworld{Mode: tree.HelloworldModeSay} }
+| HELLOWORLD SMILE { $$.val = &tree.Helloworld{Mode: tree.HelloworldModeSmile} }
 
 // %Help: ALTER
 // %Category: Group
@@ -8847,6 +8857,7 @@ unreserved_keyword:
 | GRANTS
 | GROUPS
 | HASH
+| HELLOWORLD
 | HIGH
 | HISTOGRAM
 | HOUR
@@ -8952,6 +8963,7 @@ unreserved_keyword:
 | SETTINGS
 | STATUS
 | SAVEPOINT
+| SAY
 | SCATTER
 | SCHEMA
 | SCHEMAS
@@ -8972,6 +8984,7 @@ unreserved_keyword:
 | SHOW
 | SIMPLE
 | SMALLSERIAL
+| SMILE
 | SNAPSHOT
 | SQL
 | START
