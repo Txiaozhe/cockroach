@@ -17,5 +17,5 @@ func (p *planner) Helloworld(ctx context.Context, stmt *tree.Helloworld) (planNo
 		return nil, fmt.Errorf("Unhandled Helloworld mode %v!", stmt.Mode)
 	}
 
-	return &emptyNode{}, nil
+	return &zeroNode{}, nil
 }
